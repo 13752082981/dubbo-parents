@@ -12,8 +12,14 @@
     <dubbo:application name="order-service-consumer"  />
 
     <!-- 使用multicast广播注册中心暴露发现服务地址 -->
-    <dubbo:registry protocol="zookeeper" address="192.168.160.133:2181"></dubbo:registry>
+    <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"></dubbo:registry>
 
     <!-- 生成远程服务代理，provider.xml 暴露的服务借口对象 -->
-    <dubbo:reference id="userService" interface="user.service.dubbo.UserService"  />
+    <dubbo:reference check="false" timeout="0" retries="3" version="1.0.0" stub="user.service.dubbo.impl.UserServiceStup"
+                     id="userService" interface="user.service.dubbo.UserService"  />
+
+    <dubbo:monitor protocol="registry"></dubbo:monitor>
+   <!-- <dubbo:monitor address="127.0.0.1:7070"></dubbo:monitor>-->
+    <!--统一配置消费者规则，启动时都不检查-->
+    <dubbo:consumer check="false" timeout="0"></dubbo:consumer>
 </beans>

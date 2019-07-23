@@ -8,14 +8,18 @@
 
     <!--zookeeper 注册中心的位置-->
    <!-- <dubbo:registry address="zookeeper://192.168.160.133:2181"></dubbo:registry>-->
-    <dubbo:registry protocol="zookeeper" address="192.168.160.133:2181"></dubbo:registry>
+    <dubbo:registry protocol="zookeeper" address="127.0.0.1:2181"></dubbo:registry>
 
     <!--指定通信规则，通信协议。端口-->
     <dubbo:protocol port="20880"></dubbo:protocol>
 
-    <!--暴露服务 ref:指向服务的真正实现对象 -->
-    <dubbo:service interface="user.service.dubbo.UserService" ref="userService"></dubbo:service>
-    <!--服务的实现-->
-    <bean id="userService" class="user.service.dubbo.UserServiceImpl"></bean>
+    <dubbo:service version="2.0.0" interface="user.service.dubbo.UserService" ref="userService1">
 
+        <dubbo:method name="getUserList" timeout="1000"></dubbo:method>
+    </dubbo:service>
+    <bean id="userService1" class="user.service.dubbo.UserServiceImpl"></bean>
+
+    <dubbo:service version="1.0.0" interface="user.service.dubbo.UserService" ref="userService2"></dubbo:service>
+    <bean id="userService2" class="user.service.dubbo.UserServiceImpl2"></bean>
+    <dubbo:monitor protocol="registry"></dubbo:monitor>
 </beans>

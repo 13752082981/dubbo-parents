@@ -1,10 +1,9 @@
 package user.service.dubbo.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import user.service.dubbo.Mall;
 import user.service.dubbo.UserService;
-import user.service.dubbo.order.OrderService;
 
 import java.util.List;
 
@@ -18,17 +17,19 @@ import java.util.List;
 *
 * */
 @Service
-public class OrderServiceImpl implements OrderService {
+public class UserServiceStup implements UserService {
 
+    private  final UserService userService;
 
-    @Autowired
-    UserService userService;
+    public UserServiceStup(UserService userService) {
+        this.userService = userService;
+    }
 
     @Override
-    public List<Mall> initOrder(String userid) {
-        System.out.println("userid==="+userid);
-        System.out.println(userService);
-        List<Mall> userList = userService.getUserList(userid);
-        return userList;
+    public List<Mall> getUserList(String userid) {
+        if(StringUtils.isEmpty(userid)){
+            return userService.getUserList(userid);
+        }
+        return null;
     }
 }
